@@ -4,13 +4,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import com.mldz.favorites.navigation.favoritesRoute
-import com.mldz.feature.photo_feed.navigation.photoFeedNavigationRoute
-import com.mldz.feature.photo_feed.navigation.photoFeedRoute
-import com.mldz.feature.profile.navigation.profileRoute
+import com.mldz.unsplashapp.navigation.AppNavHost
+import com.mldz.unsplashapp.navigation.BottomNavigation
 
 
 @Composable
@@ -23,14 +19,9 @@ fun MainScreen() {
             )
         }
     ) { paddingValues ->
-        NavHost(
+        AppNavHost(
             navController = navController,
-            startDestination = photoFeedNavigationRoute,
             modifier = Modifier.padding(paddingValues)
-        ) {
-            photoFeedRoute()
-            favoritesRoute()
-            profileRoute()
-        }
+        )
     }
 }
