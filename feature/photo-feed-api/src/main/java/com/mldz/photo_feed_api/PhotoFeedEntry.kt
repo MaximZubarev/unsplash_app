@@ -10,7 +10,7 @@ abstract class PhotoFeedEntry {
     val featureRoute = PHOTO_FEED_ROUTE
 
     @Composable
-    abstract fun start(
+    abstract fun Start(
         navigateToPhoto: (String) -> Unit,
         navigateToSearch: () -> Unit,
     )

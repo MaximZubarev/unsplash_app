@@ -52,9 +52,6 @@ fun BottomNavigation(
     NavigationBar(
         containerColor = Color.Transparent
     ) {
-//        var currentTab = remember {
-//            TopLevelDestination.PHOTO_FEED
-//        }
         var currentTab by remember {
             mutableStateOf(TopLevelDestination.PHOTO_FEED)
         }

@@ -7,5 +7,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface GetPhotoFeedUseCase {
 
-    operator fun invoke(page: Int): Flow<PagingData<Photo>>
+    operator fun invoke(): Flow<PagingData<Photo>>
 }

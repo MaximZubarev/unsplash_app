@@ -9,4 +9,5 @@ import androidx.compose.ui.tooling.preview.Preview
 annotation class ThemePreviews
 
 @Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
-annotation class WhiteBackgroundPreview
+@Preview(showBackground = true, backgroundColor = 0xFF000000)
+annotation class BlackWhiteBackgroundPreview

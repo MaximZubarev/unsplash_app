@@ -13,12 +13,12 @@ import androidx.navigation.navigation
 import com.mldz.favorites.FavoritesEntry
 import com.mldz.feature.photo.PhotoEntry
 import com.mldz.feature.profile.ProfileEntry
+import com.mldz.feature.search.SearchEntry
 import com.mldz.photo_feed_api.PhotoFeedEntry
 import org.koin.compose.rememberKoinInject
 
 
 const val PHOTO_FEED_GRAPH_ROUTE = "photo_feed_graph_route"
-const val SEARCH_GRAPH_ROUTE = "search_graph_route"
 const val FAVORITES_GRAPH_ROUTE = "favorites_graph_route"
 const val PROFILE_GRAPH_ROUTE = "profile_graph_route"
 
@@ -31,6 +31,7 @@ fun AppNavHost(
     val favorites = rememberKoinInject<FavoritesEntry>()
     val profile = rememberKoinInject<ProfileEntry>()
     val photo = rememberKoinInject<PhotoEntry>()
+    val search = rememberKoinInject<SearchEntry>()
     NavHost(
         navController = navController,
         modifier = modifier,
@@ -39,7 +40,8 @@ fun AppNavHost(
         photoFeedGraph(
             navController = navController,
             photoFeed = photoFeed,
-            photo = photo
+            photoRoute = photo.featureRoute,
+            searchRoute = search.featureRoute
         )
         favoritesGraph(
             navController = navController,
@@ -52,21 +54,25 @@ fun AppNavHost(
             photo = photo
         )
         photoScreen(photo = photo)
+        searchScreen(search = search)
     }
 }
 
 fun NavGraphBuilder.photoFeedGraph(
     navController: NavController,
     photoFeed: PhotoFeedEntry,
-    photo: PhotoEntry
+    photoRoute: String,
+    searchRoute: String
 ) {
     navigation(startDestination = photoFeed.featureRoute, route = PHOTO_FEED_GRAPH_ROUTE) {
         composable(route = photoFeed.featureRoute) {
-            photoFeed.start(
+            photoFeed.Start(
                 navigateToPhoto = { photoId ->
-                    navController.openPhoto(photoId, photo.featureRoute)
+                    navController.openPhoto(photoId, photoRoute)
                 },
-                navigateToSearch = { }
+                navigateToSearch = {
+                    navController.navigate(searchRoute)
+                }
             )
         }
     }
@@ -117,6 +123,12 @@ fun NavGraphBuilder.photoScreen(photo: PhotoEntry) {
         arguments = listOf(navArgument(photo.photoIdArg) { type = NavType.StringType })
     ) {
         val photoId = it.arguments?.getString(photo.photoIdArg) ?: ""
-        photo.start(photoId = photoId)
+        photo.Start(photoId = photoId)
+    }
+}
+
+fun NavGraphBuilder.searchScreen(search: SearchEntry) {
+    composable(route = search.featureRoute) {
+        search.Start()
     }
 }

@@ -11,7 +11,8 @@ import org.koin.core.annotation.Factory
 @Factory
 class PhotoFeedPaging(
     private val remoteDataSource: NetworkApi
-): PagingSource<Int, Photo>() {
+) : PagingSource<Int, Photo>() {
+
     override fun getRefreshKey(state: PagingState<Int, Photo>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
             val anchorPage = state.closestPageToPosition(anchorPosition)
@@ -29,7 +30,7 @@ class PhotoFeedPaging(
                 nextKey = if (photos.isEmpty()) null else currentPage.plus(1)
             )
         } catch (exception: Exception) {
-            return LoadResult.Error(exception)
+            LoadResult.Error(exception)
         }
     }
 }

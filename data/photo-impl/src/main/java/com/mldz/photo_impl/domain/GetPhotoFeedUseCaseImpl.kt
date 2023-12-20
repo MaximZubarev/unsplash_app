@@ -15,7 +15,7 @@ class GetPhotoFeedUseCaseImpl(
     private val ioDispatcher: CoroutineDispatcher
 ): GetPhotoFeedUseCase {
 
-    override operator fun invoke(page: Int): Flow<PagingData<Photo>> {
-        return photoRepository.getPhotoFeed(page = page).flowOn(ioDispatcher)
+    override operator fun invoke(): Flow<PagingData<Photo>> {
+        return photoRepository.getPhotoFeed().flowOn(ioDispatcher)
     }
 }

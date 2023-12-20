@@ -5,6 +5,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Bookmarks
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.PhotoLibrary
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.WarningAmber
 import androidx.compose.material.icons.outlined.Bookmarks
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.PhotoLibrary
@@ -18,6 +20,7 @@ object Icons {
     val BookmarksSelected = Icons.Default.Bookmarks
     val Profile = Icons.Outlined.Person
     val ProfileSelected = Icons.Default.Person
+    val Search = Icons.Default.Search
 }
 
 sealed class Icon {

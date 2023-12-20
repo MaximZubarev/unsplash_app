@@ -10,5 +10,5 @@ abstract class PhotoEntry {
     val featureRouteArg = "photo_route/{$photoIdArg}"
 
     @Composable
-    abstract fun start(photoId: String)
+    abstract fun Start(photoId: String)
 }

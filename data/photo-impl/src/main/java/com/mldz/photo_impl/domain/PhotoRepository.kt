@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface PhotoRepository {
 
-    fun getPhotoFeed(page: Int): Flow<PagingData<Photo>>
+    fun getPhotoFeed(): Flow<PagingData<Photo>>
 
     fun getSearchedPhoto(page: Int): Flow<List<Photo>>
 

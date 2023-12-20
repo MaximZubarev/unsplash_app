@@ -14,7 +14,7 @@ internal class PhotoRepositoryImpl(
     private val remoteDataSource: NetworkApi,
     private val pager: Pager<Int, Photo>
 ): PhotoRepository {
-    override fun getPhotoFeed(page: Int): Flow<PagingData<Photo>> {
+    override fun getPhotoFeed(): Flow<PagingData<Photo>> {
         return pager.flow
     }
 

@@ -14,7 +14,7 @@ import org.koin.core.parameter.parametersOf
 internal class PhotoEntryImpl: PhotoEntry() {
 
     @Composable
-    override fun start(photoId: String) {
+    override fun Start(photoId: String) {
         val viewModel = koinViewModel<PhotoViewModel>()
         PhotoScreen(viewModel)
     }

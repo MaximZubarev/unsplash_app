@@ -10,7 +10,7 @@ import org.koin.core.annotation.Single
 @Single
 class PhotoFeedEntryImpl: PhotoFeedEntry() {
     @Composable
-    override fun start(
+    override fun Start(
         navigateToPhoto: (String) -> Unit,
         navigateToSearch: () -> Unit
     ) {
