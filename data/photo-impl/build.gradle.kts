@@ -22,7 +22,9 @@ android {
 
 dependencies {
     implementation(project(":data:photo-api"))
+    implementation(project(":core:common"))
     implementation(project(":core:network-api"))
+    implementation(project(":core:db-api"))
 
     implementation(libs.kotlin.coroutines)
     implementation(libs.koin.core)

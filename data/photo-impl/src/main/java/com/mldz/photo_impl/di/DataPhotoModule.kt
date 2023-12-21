@@ -17,7 +17,7 @@ class DataPhotoModule {
     @Single
     fun pager(remoteDataSource: NetworkApi): Pager<Int, Photo> {
         return Pager(
-            config = PagingConfig(pageSize = 10, prefetchDistance = 2),
+            config = PagingConfig(pageSize = 10, prefetchDistance = 1),
             pagingSourceFactory = {
                 PhotoFeedPaging(remoteDataSource)
             }

@@ -9,5 +9,20 @@
     <string name="search_hint">Search photos</string>
     <string name="try_again">Try again</string>
     <string name="smth_wrong">Something went wrong</string>
-    <string name="have_error">You have some error: </string>
+    <string name="have_error">You have some error:\u0020</string>
+    <string name="by">By\u0020</string>
+    <string name="photo">Photo</string>
+    <string name="likes">\u0020Likes\u0020\u22C5\u0020</string>
+    <string name="views">\u0020Views\u0020\u22C5\u0020</string>
+    <string name="downloads">\u0020Downloads</string>
+    <string name="exif">Exif details:\u0020</string>
+    <string name="exif_make">Make:\u0020</string>
+    <string name="exif_model">Model:\u0020</string>
+    <string name="exif_name">Name:\u0020</string>
+    <string name="exif_exposure_time">Exposure Time:\u0020</string>
+    <string name="exif_aperture">Aperture:\u0020</string>
+    <string name="exif_focalLength">Focal Length:\u0020</string>
+    <string name="exif_iso">ISO:\u0020</string>
+    <string name="liked">Photo is liked</string>
+    <string name="bookmarked">Photo is saved in bookmarks</string>
 </resources>

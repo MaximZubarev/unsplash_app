@@ -44,9 +44,10 @@ android {
 dependencies {
 
     implementation(project(":core:common"))
+    implementation(project(":core:network-impl"))
+    implementation(project(":core:db-impl"))
     implementation(project(":core:ui"))
     implementation(project(":data:photo-impl"))
-    implementation(project(":core:network-impl"))
     implementation(project(":feature:photo-feed-api"))
     implementation(project(":feature:photo-feed-impl"))
     implementation(project(":feature:favorites-api"))

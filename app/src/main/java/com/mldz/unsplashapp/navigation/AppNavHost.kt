@@ -53,7 +53,11 @@ fun AppNavHost(
             profile = profile,
             photo = photo
         )
-        photoScreen(photo = photo)
+        photoScreen(
+            navController = navController,
+            photo = photo,
+            profileRoute = profile.featureRoute
+        )
         searchScreen(search = search)
     }
 }
@@ -117,13 +121,23 @@ fun NavController.openPhoto(photoId: String, route: String) {
     )
 }
 
-fun NavGraphBuilder.photoScreen(photo: PhotoEntry) {
+fun NavGraphBuilder.photoScreen(
+    navController: NavController,
+    photo: PhotoEntry,
+    profileRoute: String
+) {
     composable(
         route = photo.featureRouteArg,
         arguments = listOf(navArgument(photo.photoIdArg) { type = NavType.StringType })
     ) {
         val photoId = it.arguments?.getString(photo.photoIdArg) ?: ""
-        photo.Start(photoId = photoId)
+        photo.Start(
+            photoId = photoId,
+            navigateBack = { navController.popBackStack() },
+            navigateToProfile = {
+                navController.navigate(profileRoute)
+            }
+        )
     }
 }
 

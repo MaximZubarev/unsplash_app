@@ -6,28 +6,28 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class PhotoNetworkModel(
-//    @SerialName("alt_description")
-//    val altDescription: String,
+    @SerialName("alt_description")
+    val altDescription: String?,
 //    @SerialName("blur_hash")
 //    val blurHash: String,
 //    @SerialName("breadcrumbs")
 //    val breadcrumbs: List<BreadcrumbNetworkModel>,
 //    @SerialName("color")
 //    val color: String,
-//    @SerialName("created_at")
-//    val createdAt: String,
+    @SerialName("created_at")
+    val createdAt: String?,
 //    @SerialName("current_user_collections")
 //    val currentUserCollections: List<String>,
-//    @SerialName("description")
-//    val description: String?,
+    @SerialName("description")
+    val description: String?,
 //    @SerialName("height")
 //    val height: Int,
     @SerialName("id")
     val id: String,
-//    @SerialName("liked_by_user")
-//    val likedByUser: Boolean,
-//    @SerialName("likes")
-//    val likes: Int,
+    @SerialName("liked_by_user")
+    val likedByUser: Boolean = false,
+    @SerialName("likes")
+    val likes: Int,
 //    @SerialName("links")
 //    val links: LinksNetworkModel,
 //    @SerialName("promoted_at")
