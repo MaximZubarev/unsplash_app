@@ -25,4 +25,7 @@
     <string name="exif_iso">ISO:\u0020</string>
     <string name="liked">Photo is liked</string>
     <string name="bookmarked">Photo is saved in bookmarks</string>
+    <string name="bookmarks_title">Bookmarks of photos</string>
+    <string name="bookmarks_no">No bookmarks</string>
+    <string name="bookmarks_save">You can save photo as bookmark in photo card</string>
 </resources>

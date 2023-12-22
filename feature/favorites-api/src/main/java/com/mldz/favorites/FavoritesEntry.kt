@@ -8,7 +8,7 @@ abstract class FavoritesEntry {
     val featureRoute = "favorites_route"
 
     @Composable
-    abstract fun start(
+    abstract fun Start(
         navigateToPhoto: (String) -> Unit
     )
 }

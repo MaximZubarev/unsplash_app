@@ -39,6 +39,9 @@ android {
 
 dependencies {
 
+    implementation(project(":core:common"))
+    implementation(project(":core:ui"))
+    implementation(project(":data:photo-api"))
     implementation(project(":feature:favorites-api"))
 
     implementation(libs.androidx.ktx)
@@ -47,6 +50,9 @@ dependencies {
     implementation(libs.androidx.compose.material)
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.navigation)
+    implementation(libs.androidx.compose.lifecycle)
     implementation(libs.bundles.koin)
     ksp(libs.koin.ksp)
+    implementation(libs.bundles.paging)
+    implementation(libs.bundles.compose.preview)
 }

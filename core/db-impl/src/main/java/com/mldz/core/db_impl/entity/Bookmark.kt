@@ -6,7 +6,8 @@ import androidx.room.PrimaryKey
 
 
 @Entity
-data class Bookmark(
+data class Bookmark (
     @PrimaryKey val id: String,
+    @ColumnInfo(name = "url") val url: String,
     @ColumnInfo(name = "bookmark") val bookmark: Boolean = true
 )

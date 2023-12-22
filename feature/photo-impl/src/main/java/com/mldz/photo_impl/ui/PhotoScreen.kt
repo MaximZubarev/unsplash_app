@@ -106,12 +106,17 @@ fun PhotoState(
     }
     Scaffold(
         topBar = {
-            AppBar(title = appBarTitle.value, navigateBack = navigateBack)
+            AppBar(
+                title = appBarTitle.value,
+                isBookmark = state.photo?.isBookmark ?: false,
+                navigateBack = navigateBack,
+                onBookmark = onBookmark
+            )
         }
     ) { innerPadding ->
         Box(modifier = Modifier.padding(innerPadding)) {
             when {
-                state.isLoading -> Loader()
+                state.isLoading -> Loader(modifier = Modifier.fillMaxSize())
                 state.error != null -> {
                     ErrorLoading(
                         message = state.error,
@@ -140,7 +145,9 @@ fun PhotoState(
 @Composable
 fun AppBar(
     title: String,
-    navigateBack: () -> Unit
+    isBookmark: Boolean,
+    navigateBack: () -> Unit,
+    onBookmark: () -> Unit
 ) {
     CenterAlignedTopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
@@ -164,7 +171,16 @@ fun AppBar(
         },
         windowInsets = WindowInsets(
             top = 0.dp
-        )
+        ),
+        actions = {
+            IconButton(onClick = onBookmark) {
+                val iconBookmark = if (isBookmark) Icons.Bookmark else Icons.BookmarkOutlined
+                Icon(
+                    imageVector = iconBookmark,
+                    contentDescription = null
+                )
+            }
+        },
     )
 }
 
@@ -197,9 +213,7 @@ fun PhotoView(
         Spacer(modifier = Modifier.size(10.dp))
         PhotoDetails(
             state = state,
-            onExifClick = onExifClick,
-            onLike = onLike,
-            onBookmark = onBookmark
+            onExifClick = onExifClick
         )
     }
 }
@@ -225,31 +239,20 @@ fun PhotoDetailsPreview() {
                 "desc"
             )
         ),
-        onExifClick = { },
-        onLike = {},
-        onBookmark = {}
+        onExifClick = { }
     )
 }
 
 @Composable
 fun PhotoDetails(
     state: PhotoContract.State,
-    onExifClick: () -> Unit,
-    onLike: () -> Unit,
-    onBookmark: () -> Unit
+    onExifClick: () -> Unit
 ) {
     val photo = state.photo
     photo?.let {
-        Log.d("TAGG", "PhotoDetails: ${photo.id}")
         Column(
             modifier = Modifier.fillMaxWidth()
         ) {
-            PhotoReactions(
-                isLiked = photo.likedByUser,
-                isBookmark = photo.isBookmark,
-                onLike = onLike,
-                onBookmark = onBookmark
-            )
             Spacer(modifier = Modifier.size(20.dp))
             Author(name = photo.user?.name, description = photo.description)
             Spacer(modifier = Modifier.size(20.dp))
@@ -262,34 +265,6 @@ fun PhotoDetails(
                 ExifView(exif = photo.exif)
             }
         }
-    }
-}
-
-@Composable
-fun PhotoReactions(
-    isLiked: Boolean,
-    isBookmark: Boolean,
-    onLike: () -> Unit,
-    onBookmark: () -> Unit
-) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.End,
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        val iconLike = if (isLiked) Icons.Favorite else Icons.FavoriteOutlined
-        val iconBookmark = if (isBookmark) Icons.Bookmark else Icons.BookmarkOutlined
-        Icon(
-            imageVector = iconLike,
-            contentDescription = null,
-            modifier = Modifier.clickable(onClick = onLike)
-        )
-        Spacer(modifier = Modifier.size(20.dp))
-        Icon(
-            imageVector = iconBookmark,
-            contentDescription = null,
-            modifier = Modifier.clickable(onClick = onBookmark)
-        )
     }
 }
 

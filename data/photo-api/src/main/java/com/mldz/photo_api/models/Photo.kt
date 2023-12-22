@@ -4,14 +4,10 @@ import com.mldz.network_api.models.PhotoNetworkModel
 
 data class Photo(
     val id: String,
-    val urls: Paths
+    val url: String
 )
 
 fun toPhoto(photoApi: PhotoNetworkModel) = Photo(
     id = photoApi.id,
-    urls = Paths(
-        raw = photoApi.urls.raw,
-        regular = photoApi.urls.regular,
-        full = photoApi.urls.full
-    )
+    url = photoApi.urls.regular
 )

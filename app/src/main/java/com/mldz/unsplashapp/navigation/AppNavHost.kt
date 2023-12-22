@@ -89,7 +89,7 @@ fun NavGraphBuilder.favoritesGraph(
 ) {
     navigation(startDestination = favorites.featureRoute, route = FAVORITES_GRAPH_ROUTE) {
         composable(route = favorites.featureRoute) {
-            favorites.start(
+            favorites.Start(
                 navigateToPhoto = { photoId ->
                     navController.openPhoto(photoId, photo.featureRoute)
                 },

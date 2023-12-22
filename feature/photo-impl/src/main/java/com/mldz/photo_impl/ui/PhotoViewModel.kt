@@ -7,7 +7,6 @@ import com.mldz.photo_api.domain.BookmarkPhotoUseCase
 import com.mldz.photo_api.domain.GetPhotoByIdUseCase
 import com.mldz.photo_api.domain.LikePhotoUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flatMapLatest
@@ -62,7 +61,6 @@ class PhotoViewModel(
 
     private fun likePhoto() {
         viewModelScope.launch {
-            async {  }
             currentState.photo?.let {
                 val res = likePhotoUseCase.invoke(it.id, !it.likedByUser)
                 if (res) {
@@ -76,10 +74,12 @@ class PhotoViewModel(
     private fun bookmarkPhoto() {
         viewModelScope.launch {
             currentState.photo?.let {
-                val res = bookmarkPhotoUseCase.invoke(it.id, !it.isBookmark)
+                val res = bookmarkPhotoUseCase.invoke(it.id, it.urls.regular, !it.isBookmark)
                 if (res) {
+                    if (!it.isBookmark) {
+                        setEffect { PhotoContract.Effect.ShowBookmarked }
+                    }
                     setState { currentState.copy(photo = photo?.copy(isBookmark = !it.isBookmark)) }
-                    setEffect { PhotoContract.Effect.ShowBookmarked }
                 }
             }
         }

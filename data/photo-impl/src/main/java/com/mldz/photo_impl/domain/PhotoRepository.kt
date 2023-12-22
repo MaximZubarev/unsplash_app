@@ -12,11 +12,11 @@ interface PhotoRepository {
 
     fun getSearchedPhoto(page: Int): Flow<List<Photo>>
 
-    fun getFavoritesPhoto(page: Int): Flow<List<Photo>>
+    fun getBookmarks(page: Int): Flow<PagingData<Photo>>
 
     fun getPhoto(id: String): Flow<PhotoDetail>
 
     suspend fun likePhoto(id: String, isLike: Boolean): Boolean
 
-    suspend fun bookmarkPhoto(id: String, isBookmark: Boolean): Boolean
+    suspend fun bookmarkPhoto(id: String, url: String, isBookmark: Boolean): Boolean
 }

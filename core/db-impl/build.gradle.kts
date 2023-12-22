@@ -40,6 +40,7 @@ dependencies {
     ksp(libs.koin.ksp)
     implementation(libs.room)
     implementation(libs.room.ktx)
+    implementation(libs.room.paging)
     annotationProcessor(libs.room.compiler)
     ksp(libs.room.compiler)
 }

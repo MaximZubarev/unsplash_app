@@ -9,7 +9,7 @@ class BookmarkPhotoUseCaseImpl(
     private val repository: PhotoRepository
 ) : BookmarkPhotoUseCase {
 
-    override suspend fun invoke(id: String, isBookmark: Boolean): Boolean {
-        return repository.bookmarkPhoto(id, isBookmark)
+    override suspend fun invoke(id: String, url: String, isBookmark: Boolean): Boolean {
+        return repository.bookmarkPhoto(id, url, isBookmark)
     }
 }

@@ -7,7 +7,7 @@ import org.koin.core.annotation.Single
 
 
 @Module
-@ComponentScan("com.mldz.core.db_impl")
+//@ComponentScan("com.mldz.core.db_impl")
 class CoreDaosKoinModule {
 
     @Single

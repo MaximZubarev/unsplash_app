@@ -91,6 +91,7 @@ internal fun ListPhotoScreen(
                                     onRepeat = repeatLoad
                                 )
                             }
+                            is LoadState.Loading -> Loader(modifier = Modifier.fillMaxSize())
                             else -> {
                                 Content(items = items, navigateToPhoto = navigateToPhoto)
                             }
@@ -100,7 +101,6 @@ internal fun ListPhotoScreen(
                         }
                     }
                 }
-
             }
         }
     }
@@ -168,7 +168,7 @@ fun Content(
         photoCard = { photo ->
             photo?.let {
                 PhotoCard(
-                    url = photo.urls.regular,
+                    url = photo.url,
                     onClick = { navigateToPhoto(photo.id) },
                     modifier = Modifier.fillMaxWidth(),
                     contentDescription = photo.id
