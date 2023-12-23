@@ -4,9 +4,12 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import com.mldz.network_api.NetworkApi
 import com.mldz.photo_api.models.Photo
-import com.mldz.photo_impl.data.PhotoFeedPaging
+import com.mldz.photo_impl.paging.PhotoFeedPaging
+import com.mldz.photo_impl.paging.SearchPaging
 import org.koin.core.annotation.ComponentScan
+import org.koin.core.annotation.Factory
 import org.koin.core.annotation.Module
+import org.koin.core.annotation.Named
 import org.koin.core.annotation.Single
 
 
@@ -20,6 +23,17 @@ class DataPhotoModule {
             config = PagingConfig(pageSize = 10, prefetchDistance = 1),
             pagingSourceFactory = {
                 PhotoFeedPaging(remoteDataSource)
+            }
+        )
+    }
+
+    @Factory
+    @Named("Search")
+    fun pagerSearch(remoteDataSource: NetworkApi): Pager<Int, Photo> {
+        return Pager(
+            config = PagingConfig(pageSize = 10, prefetchDistance = 1),
+            pagingSourceFactory = {
+                SearchPaging(networkApi = remoteDataSource, "")
             }
         )
     }

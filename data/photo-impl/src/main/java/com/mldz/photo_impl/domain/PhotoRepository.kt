@@ -10,7 +10,7 @@ interface PhotoRepository {
 
     fun getPhotoFeed(): Flow<PagingData<Photo>>
 
-    fun getSearchedPhoto(page: Int): Flow<List<Photo>>
+    fun getSearchedPhoto(query: String): Flow<PagingData<Photo>>
 
     fun getBookmarks(page: Int): Flow<PagingData<Photo>>
 

@@ -1,4 +1,4 @@
-package com.mldz.photo_impl.data
+package com.mldz.photo_impl.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
@@ -10,7 +10,7 @@ import org.koin.core.annotation.Factory
 
 @Factory
 class PhotoFeedPaging(
-    private val remoteDataSource: NetworkApi
+    private val remoteDataSource: NetworkApi,
 ) : PagingSource<Int, Photo>() {
 
     override fun getRefreshKey(state: PagingState<Int, Photo>): Int? {

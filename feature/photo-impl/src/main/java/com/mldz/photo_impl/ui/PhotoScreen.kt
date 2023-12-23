@@ -132,8 +132,6 @@ fun PhotoState(
                     PhotoView(
                         state = state,
                         onExifClick = onShowDetails,
-                        onLike = onLike,
-                        onBookmark = onBookmark
                     )
                 }
             }
@@ -187,9 +185,7 @@ fun AppBar(
 @Composable
 fun PhotoView(
     state: PhotoContract.State,
-    onExifClick: () -> Unit,
-    onLike: () -> Unit,
-    onBookmark: () -> Unit
+    onExifClick: () -> Unit
 ) {
     Column(
         modifier = Modifier

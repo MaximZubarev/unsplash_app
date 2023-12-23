@@ -10,7 +10,13 @@ import org.koin.core.annotation.Single
 class SearchEntryImpl: SearchEntry() {
 
     @Composable
-    override fun Start() {
-        SearchScreen()
+    override fun Start(
+        navigateToPhoto: (String) -> Unit,
+        navigateBack: () -> Unit
+    ) {
+        SearchScreen(
+            navigateToPhoto = navigateToPhoto,
+            navigateBack = navigateBack
+        )
     }
 }

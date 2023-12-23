@@ -1,6 +1,7 @@
 package com.mldz.photo_impl.data
 
 import androidx.paging.Pager
+import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
 import com.mldz.core.common.extension.formatFromServerToHuman
@@ -10,9 +11,11 @@ import com.mldz.photo_api.models.Photo
 import com.mldz.photo_api.models.PhotoDetail
 import com.mldz.photo_api.models.toPhotoDetail
 import com.mldz.photo_impl.domain.PhotoRepository
+import com.mldz.photo_impl.paging.SearchPaging
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
+import org.koin.core.annotation.Named
 import org.koin.core.annotation.Single
 
 
@@ -20,14 +23,20 @@ import org.koin.core.annotation.Single
 internal class PhotoRepositoryImpl(
     private val remoteDataSource: NetworkApi,
     private val localDataSource: DatabaseSource,
-    private val pager: Pager<Int, Photo>
+    private val pagerFeed: Pager<Int, Photo>,
+    @Named("Search") private val pagerSearch: Pager<Int, Photo>
 ): PhotoRepository {
     override fun getPhotoFeed(): Flow<PagingData<Photo>> {
-        return pager.flow
+        return pagerFeed.flow
     }
 
-    override fun getSearchedPhoto(page: Int): Flow<List<Photo>> {
-        TODO("Not yet implemented")
+    override fun getSearchedPhoto(query: String): Flow<PagingData<Photo>> {
+        return Pager(
+            config = PagingConfig(pageSize = 10, prefetchDistance = 1),
+            pagingSourceFactory = {
+                SearchPaging(networkApi = remoteDataSource, query = query)
+            }
+        ).flow
     }
 
     override fun getBookmarks(page: Int): Flow<PagingData<Photo>> {

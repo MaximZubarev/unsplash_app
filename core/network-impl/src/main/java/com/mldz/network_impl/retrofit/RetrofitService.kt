@@ -2,6 +2,7 @@ package com.mldz.network_impl.retrofit
 
 import com.mldz.network_api.models.PhotoDetailNetworkModel
 import com.mldz.network_api.models.PhotoNetworkModel
+import com.mldz.network_api.models.SearchResultNetworkModel
 import retrofit2.Response
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -31,4 +32,10 @@ interface RetrofitService {
     suspend fun unlikePhoto(
         @Path("id") photoId: String
     ): Response<Unit>
+
+    @GET("/search/photos")
+    suspend fun searchPhoto(
+        @Query("query") query: String,
+        @Query("page") page: Int
+    ): SearchResultNetworkModel
 }

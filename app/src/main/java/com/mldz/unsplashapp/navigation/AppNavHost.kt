@@ -8,6 +8,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import com.mldz.favorites.FavoritesEntry
@@ -15,6 +16,8 @@ import com.mldz.feature.photo.PhotoEntry
 import com.mldz.feature.profile.ProfileEntry
 import com.mldz.feature.search.SearchEntry
 import com.mldz.photo_feed_api.PhotoFeedEntry
+import org.koin.androidx.compose.get
+import org.koin.compose.koinInject
 import org.koin.compose.rememberKoinInject
 
 
@@ -58,7 +61,11 @@ fun AppNavHost(
             photo = photo,
             profileRoute = profile.featureRoute
         )
-        searchScreen(search = search)
+        searchScreen(
+            navController = navController,
+            search = search,
+            photoRoute = photo.featureRoute
+        )
     }
 }
 
@@ -141,8 +148,15 @@ fun NavGraphBuilder.photoScreen(
     }
 }
 
-fun NavGraphBuilder.searchScreen(search: SearchEntry) {
+fun NavGraphBuilder.searchScreen(
+    navController: NavController,
+    search: SearchEntry,
+    photoRoute: String
+) {
     composable(route = search.featureRoute) {
-        search.Start()
+        search.Start(
+            navigateToPhoto = { navController.openPhoto(it, photoRoute) },
+            navigateBack = { navController.popBackStack() }
+        )
     }
 }

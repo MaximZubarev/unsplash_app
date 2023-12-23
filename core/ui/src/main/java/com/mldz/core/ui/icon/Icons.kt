@@ -16,12 +16,14 @@ import androidx.compose.material.icons.outlined.Bookmark
 import androidx.compose.material.icons.outlined.BookmarkAdd
 import androidx.compose.material.icons.outlined.Bookmarks
 import androidx.compose.material.icons.outlined.CalendarMonth
+import androidx.compose.material.icons.outlined.Clear
 import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.PersonOutline
 import androidx.compose.material.icons.outlined.PhotoLibrary
 import androidx.compose.material.icons.outlined.Place
+import androidx.compose.material.icons.outlined.Search
 import androidx.compose.ui.graphics.vector.ImageVector
 
 
@@ -41,6 +43,7 @@ object Icons {
     val Favorite = Icons.Default.Favorite
     val Bookmark = Icons.Default.Bookmark
     val BookmarkOutlined = Icons.Outlined.BookmarkAdd
+    val Clear = Icons.Outlined.Clear
 }
 
 sealed class Icon {

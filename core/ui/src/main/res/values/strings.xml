@@ -28,4 +28,9 @@
     <string name="bookmarks_title">Bookmarks of photos</string>
     <string name="bookmarks_no">No bookmarks</string>
     <string name="bookmarks_save">You can save photo as bookmark in photo card</string>
+    <string name="empty_search">Not found</string>
+    <string name="empty_search_desc">Try again with another params</string>
+    <string name="likes_label">Likes</string>
+    <string name="photos">Photos</string>
+    <string name="followers">Followers</string>
 </resources>

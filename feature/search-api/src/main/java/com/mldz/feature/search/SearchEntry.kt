@@ -8,5 +8,8 @@ abstract class SearchEntry {
     val featureRoute = "search_route"
 
     @Composable
-    abstract fun Start()
+    abstract fun Start(
+        navigateToPhoto: (String) -> Unit,
+        navigateBack: () -> Unit
+    )
 }
