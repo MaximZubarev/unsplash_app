@@ -23,6 +23,8 @@ data class PhotoDetail(
 data class User(
     val id: String?,
     val name: String?,
+    val username: String?,
+    val userPhoto: String?
 )
 
 data class Exif(
@@ -50,7 +52,9 @@ fun toPhotoDetail(photoApi: PhotoDetailNetworkModel, isBookmark: Boolean, dateFo
         downloads = photoApi.downloads,
         user = User(
             id = photoApi.user?.id,
-            name = photoApi.user?.name
+            name = photoApi.user?.name,
+            username = photoApi.user?.username,
+            userPhoto = photoApi.user?.profileImage?.medium
         ),
         exif = toExif(exif = photoApi.exif),
         location = photoApi.location?.name,

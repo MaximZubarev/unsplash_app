@@ -53,4 +53,5 @@ dependencies {
     implementation(libs.bundles.compose.preview)
     implementation(libs.bundles.koin)
     ksp(libs.koin.ksp)
+    implementation(libs.coil)
 }

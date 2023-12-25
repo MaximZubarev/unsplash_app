@@ -1,9 +1,11 @@
 package com.mldz.network_impl.retrofit
 
+import android.util.Log
 import com.mldz.network_api.NetworkApi
 import com.mldz.network_api.models.PhotoDetailNetworkModel
 import com.mldz.network_api.models.PhotoNetworkModel
 import com.mldz.network_api.models.SearchResultNetworkModel
+import com.mldz.network_api.models.UserProfileNetworkModel
 import org.koin.core.annotation.Single
 
 
@@ -30,5 +32,13 @@ internal class NetworkImpl(
 
     override suspend fun search(query: String, page: Int): SearchResultNetworkModel {
         return service.searchPhoto(query, page)
+    }
+
+    override suspend fun getUserProfile(username: String): UserProfileNetworkModel {
+        return service.getUserProfile(username = username)
+    }
+
+    override suspend fun getUserPhotos(username: String, page: Int): List<PhotoNetworkModel> {
+        return service.getUserPhotos(username, page)
     }
 }

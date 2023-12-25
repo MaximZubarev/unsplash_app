@@ -1,5 +1,6 @@
 package com.mldz.photo_impl.data
 
+import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -10,12 +11,12 @@ import com.mldz.network_api.NetworkApi
 import com.mldz.photo_api.models.Photo
 import com.mldz.photo_api.models.PhotoDetail
 import com.mldz.photo_api.models.toPhotoDetail
-import com.mldz.photo_impl.domain.PhotoRepository
+import com.mldz.photo_api.domain.PhotoRepository
 import com.mldz.photo_impl.paging.SearchPaging
+import com.mldz.photo_impl.paging.UserPhotosPaging
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
-import org.koin.core.annotation.Named
 import org.koin.core.annotation.Single
 
 
@@ -24,7 +25,6 @@ internal class PhotoRepositoryImpl(
     private val remoteDataSource: NetworkApi,
     private val localDataSource: DatabaseSource,
     private val pagerFeed: Pager<Int, Photo>,
-    @Named("Search") private val pagerSearch: Pager<Int, Photo>
 ): PhotoRepository {
     override fun getPhotoFeed(): Flow<PagingData<Photo>> {
         return pagerFeed.flow
@@ -67,6 +67,22 @@ internal class PhotoRepositoryImpl(
             localDataSource.bookmarkPhoto(id = id, url = url) > 0
         } else {
             localDataSource.unBookmarkPhoto(id = id) > 0
+        }
+    }
+
+    override fun getUserPhotos(username: String): Flow<PagingData<Photo>> {
+        return Pager(
+            config = PagingConfig(pageSize = 10, prefetchDistance = 1),
+            pagingSourceFactory = {
+                UserPhotosPaging(networkApi = remoteDataSource, username = username)
+            }
+        ).flow.map {
+            it.map { photo ->
+                Photo(
+                    id = photo.id,
+                    url = photo.urls.regular
+                )
+            }
         }
     }
 }

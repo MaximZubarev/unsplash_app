@@ -1,6 +1,7 @@
 package com.mldz.photo_impl.domain
 
 import com.mldz.photo_api.domain.LikePhotoUseCase
+import com.mldz.photo_api.domain.PhotoRepository
 import org.koin.core.annotation.Factory
 
 

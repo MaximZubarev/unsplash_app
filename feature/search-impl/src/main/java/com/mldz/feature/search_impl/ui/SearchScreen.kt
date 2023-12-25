@@ -200,6 +200,12 @@ fun StartState(
     }
 }
 
+@Preview
+@Composable
+fun EmptyStatePreview() {
+    EmptyState()
+}
+
 @Composable
 fun EmptyState(
     modifier: Modifier = Modifier

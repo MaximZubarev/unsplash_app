@@ -48,6 +48,7 @@ dependencies {
     implementation(project(":core:db-impl"))
     implementation(project(":core:ui"))
     implementation(project(":data:photo-impl"))
+    implementation(project(":data:profile-impl"))
     implementation(project(":feature:photo-feed-api"))
     implementation(project(":feature:photo-feed-impl"))
     implementation(project(":feature:favorites-api"))

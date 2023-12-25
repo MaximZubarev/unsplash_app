@@ -9,6 +9,7 @@ import com.mldz.feature.search_impl.di.FeatureSearchModule
 import com.mldz.network_impl.di.CoreNetworkModule
 import com.mldz.photo_impl.di.DataPhotoModule
 import com.mldz.photo_impl.di.FeaturePhotoModule
+import com.mldz.profile_impl.di.DataProfileModule
 import com.mldz.profile_impl.di.FeatureProfileModule
 import org.koin.dsl.module
 import org.koin.ksp.generated.module
@@ -21,6 +22,7 @@ val appModule = module {
         CoreDatabaseKoinModule().module,
         CoreDaosKoinModule().module,
         DataPhotoModule().module,
+        DataProfileModule().module,
         FeaturePhotoFeedModule().module,
         FeatureFavoritesModule().module,
         FeatureProfileModule().module,

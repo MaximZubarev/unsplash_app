@@ -1,6 +1,7 @@
 package com.mldz.photo_impl.domain
 
 import androidx.paging.PagingData
+import com.mldz.photo_api.domain.PhotoRepository
 import com.mldz.photo_api.domain.SearchPhotoUseCase
 import com.mldz.photo_api.models.Photo
 import kotlinx.coroutines.flow.Flow

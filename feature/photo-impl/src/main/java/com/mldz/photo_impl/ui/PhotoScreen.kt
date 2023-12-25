@@ -1,6 +1,5 @@
 package com.mldz.photo_impl.ui
 
-import android.util.Log
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Canvas
@@ -17,6 +16,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -34,6 +34,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
@@ -45,6 +46,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import coil.compose.AsyncImage
 import com.mldz.core.ui.component.ErrorLoading
 import com.mldz.core.ui.component.Loader
 import com.mldz.core.ui.component.PhotoCard
@@ -80,7 +82,7 @@ fun PhotoScreen(
             }
         }
     }
-    PhotoState(
+    PhotoScreen(
         state = photo,
         navigateBack = navigateBack,
         navigateToProfile = navigateToProfile,
@@ -92,7 +94,7 @@ fun PhotoScreen(
 }
 
 @Composable
-fun PhotoState(
+fun PhotoScreen(
     state: PhotoContract.State,
     navigateBack: () -> Unit,
     navigateToProfile: (String) -> Unit,
@@ -132,6 +134,7 @@ fun PhotoState(
                     PhotoView(
                         state = state,
                         onExifClick = onShowDetails,
+                        onUserClick = navigateToProfile
                     )
                 }
             }
@@ -185,7 +188,8 @@ fun AppBar(
 @Composable
 fun PhotoView(
     state: PhotoContract.State,
-    onExifClick: () -> Unit
+    onExifClick: () -> Unit,
+    onUserClick: (String) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -209,7 +213,8 @@ fun PhotoView(
         Spacer(modifier = Modifier.size(10.dp))
         PhotoDetails(
             state = state,
-            onExifClick = onExifClick
+            onExifClick = onExifClick,
+            onUserClick = { state.photo?.user?.username?.let { onUserClick(it) } }
         )
     }
 }
@@ -228,21 +233,23 @@ fun PhotoDetailsPreview() {
                 "title",
                 100,
                 1000,
-                User("", "username"),
+                User("", "username", "", userPhoto = null),
                 Exif("make", "model", "name", "expTime", "aper", "length", 100),
                 "Moscow",
                 "07 08 01997",
                 "desc"
             )
         ),
-        onExifClick = { }
+        onExifClick = { },
+        onUserClick = {  }
     )
 }
 
 @Composable
 fun PhotoDetails(
     state: PhotoContract.State,
-    onExifClick: () -> Unit
+    onExifClick: () -> Unit,
+    onUserClick: () -> Unit
 ) {
     val photo = state.photo
     photo?.let {
@@ -250,7 +257,12 @@ fun PhotoDetails(
             modifier = Modifier.fillMaxWidth()
         ) {
             Spacer(modifier = Modifier.size(20.dp))
-            Author(name = photo.user?.name, description = photo.description)
+            Author(
+                name = photo.user?.name,
+                userImage = photo.user?.userPhoto,
+                description = photo.description,
+                onUserClick = onUserClick
+            )
             Spacer(modifier = Modifier.size(20.dp))
             PhotoMainInfo(photo = photo)
             Spacer(modifier = Modifier.size(40.dp))
@@ -267,17 +279,20 @@ fun PhotoDetails(
 @Composable
 fun Author(
     name: String?,
-    description: String?
+    userImage: String?,
+    description: String?,
+    onUserClick: () -> Unit
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Icon(
-            painter = painterResource(id = uiR.drawable.take_a_photo),
+        AsyncImage(
+            model = userImage,
             contentDescription = null,
+            error = painterResource(id = uiR.drawable.take_a_photo),
             modifier = Modifier
-                .size(30.dp)
-                .alpha(0.6f)
+                .size(40.dp)
+                .clip(CircleShape),
         )
         Spacer(modifier = Modifier.size(10.dp))
         Column {
@@ -285,6 +300,7 @@ fun Author(
                 Text(
                     text = it,
                     style = MaterialTheme.typography.titleMedium,
+                    modifier = Modifier.clickable(onClick = onUserClick)
                 )
             }
             description?.let {

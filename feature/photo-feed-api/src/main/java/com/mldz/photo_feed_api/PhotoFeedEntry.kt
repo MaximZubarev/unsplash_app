@@ -1,13 +1,12 @@
 package com.mldz.photo_feed_api
 
 import androidx.compose.runtime.Composable
+import com.mldz.core.common.feature.FeatureEntry
 
 
-const val PHOTO_FEED_ROUTE: String = "photo_feed_route"
+abstract class PhotoFeedEntry : FeatureEntry {
 
-abstract class PhotoFeedEntry {
-
-    val featureRoute = PHOTO_FEED_ROUTE
+    override val featureRoute = "photo_feed_route"
 
     @Composable
     abstract fun Start(

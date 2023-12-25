@@ -45,8 +45,8 @@ data class Location(
 
 @Serializable
 data class Position(
-    val latitude: Double,
-    val longitude: Double
+    val latitude: Double?,
+    val longitude: Double?
 )
 
 @Serializable
@@ -94,6 +94,7 @@ data class User(
     @SerialName("total_likes") val totalLikes: Int,
     @SerialName("total_photos") val totalPhotos: Int,
     @SerialName("total_collections") val totalCollections: Int,
+    @SerialName("profile_image") val profileImage: ProfileImage?,
     val links: UserLinks?
 )
 
@@ -104,4 +105,11 @@ data class UserLinks(
     val photos: String?,
     val likes: String?,
     val portfolio: String?
+)
+
+@Serializable
+data class ProfileImage(
+    val small: String?,
+    val medium: String?,
+    val large: String?
 )

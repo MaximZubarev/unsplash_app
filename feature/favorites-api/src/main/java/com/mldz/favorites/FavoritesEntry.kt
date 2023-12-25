@@ -1,11 +1,12 @@
 package com.mldz.favorites
 
 import androidx.compose.runtime.Composable
+import com.mldz.core.common.feature.FeatureEntry
 
 
-abstract class FavoritesEntry {
+abstract class FavoritesEntry : FeatureEntry {
 
-    val featureRoute = "favorites_route"
+    override val featureRoute = "favorites_route"
 
     @Composable
     abstract fun Start(

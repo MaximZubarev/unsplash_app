@@ -6,15 +6,12 @@ import com.mldz.core.common.base.UiEvent
 import com.mldz.core.common.base.UiState
 import com.mldz.photo_api.models.Photo
 import kotlinx.coroutines.flow.Flow
-import androidx.compose.runtime.getValue
 
 
 interface PhotoFeedContract {
 
     sealed class Event: UiEvent {
-        object OnSearch: Event()
         object OnRepeatLoad: Event()
-        data class OnOpenPhoto(val photoId: String)
     }
 
     data class State(
@@ -28,6 +25,6 @@ interface PhotoFeedContract {
     }
 
     sealed class Effect: UiEffect {
-        object ShowToast: Effect()
+
     }
 }

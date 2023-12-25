@@ -3,6 +3,7 @@ package com.mldz.network_impl.retrofit
 import com.mldz.network_api.models.PhotoDetailNetworkModel
 import com.mldz.network_api.models.PhotoNetworkModel
 import com.mldz.network_api.models.SearchResultNetworkModel
+import com.mldz.network_api.models.UserProfileNetworkModel
 import retrofit2.Response
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -38,4 +39,15 @@ interface RetrofitService {
         @Query("query") query: String,
         @Query("page") page: Int
     ): SearchResultNetworkModel
+
+    @GET("/users/{username}")
+    suspend fun getUserProfile(
+        @Path("username") username: String
+    ): UserProfileNetworkModel
+
+    @GET("/users/{username}/photos")
+    suspend fun getUserPhotos(
+        @Path("username") username: String,
+        @Query("page") page: Int
+    ): List<PhotoNetworkModel>
 }

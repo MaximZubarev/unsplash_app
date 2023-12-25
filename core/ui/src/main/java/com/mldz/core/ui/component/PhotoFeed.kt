@@ -9,9 +9,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
@@ -25,6 +25,8 @@ fun <T : Any> PhotoFeed(
     columns: Int = 2,
     photoCard: @Composable (item: T?) -> Unit,
     photoCardLoader: @Composable () -> Unit,
+    header: @Composable () -> Unit = { },
+    emptyState: @Composable () -> Unit = { },
     key: ((index: Int) -> Any)? = null,
 ) {
     LazyVerticalStaggeredGrid(
@@ -34,24 +36,19 @@ fun <T : Any> PhotoFeed(
         horizontalArrangement = Arrangement.spacedBy(spaceBetweenPhotos.dp),
         contentPadding = WindowInsets.systemBars.only(WindowInsetsSides.Bottom).asPaddingValues(),
         content = {
+            item(span = StaggeredGridItemSpan.FullLine) {
+                header()
+            }
+            item(span = StaggeredGridItemSpan.FullLine) {
+                emptyState()
+            }
             items(count = items.itemCount, key = key) { index ->
                 photoCard(items[index])
             }
             if (items.loadState.append == LoadState.Loading) {
-                repeat(2) {
-                    item {
-                        photoCardLoader()
-                    }
+                item {
+                    photoCardLoader()
                 }
             }
         })
-}
-
-@Preview
-@Composable
-private fun PhotoFeedPreview() {
-//    PhotoFeed(
-//        items = LazyPagingItems<Int>(),
-//        photoCard = { PhotoCard(url = "") }
-//    )
 }

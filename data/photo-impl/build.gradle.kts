@@ -33,5 +33,4 @@ dependencies {
     implementation(libs.androidx.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.bundles.paging)
-//    implementation(libs.paging)
 }

@@ -26,15 +26,4 @@ class DataPhotoModule {
             }
         )
     }
-
-    @Factory
-    @Named("Search")
-    fun pagerSearch(remoteDataSource: NetworkApi): Pager<Int, Photo> {
-        return Pager(
-            config = PagingConfig(pageSize = 10, prefetchDistance = 1),
-            pagingSourceFactory = {
-                SearchPaging(networkApi = remoteDataSource, "")
-            }
-        )
-    }
 }

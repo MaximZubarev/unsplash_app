@@ -8,7 +8,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import com.mldz.favorites.FavoritesEntry
@@ -16,14 +15,11 @@ import com.mldz.feature.photo.PhotoEntry
 import com.mldz.feature.profile.ProfileEntry
 import com.mldz.feature.search.SearchEntry
 import com.mldz.photo_feed_api.PhotoFeedEntry
-import org.koin.androidx.compose.get
-import org.koin.compose.koinInject
 import org.koin.compose.rememberKoinInject
 
 
 const val PHOTO_FEED_GRAPH_ROUTE = "photo_feed_graph_route"
 const val FAVORITES_GRAPH_ROUTE = "favorites_graph_route"
-const val PROFILE_GRAPH_ROUTE = "profile_graph_route"
 
 @Composable
 fun AppNavHost(
@@ -51,7 +47,7 @@ fun AppNavHost(
             favorites = favorites,
             photo = photo
         )
-        profileGraph(
+        profileScreen(
             navController = navController,
             profile = profile,
             photo = photo
@@ -59,7 +55,7 @@ fun AppNavHost(
         photoScreen(
             navController = navController,
             photo = photo,
-            profileRoute = profile.featureRoute
+            profileRoute = profile.featureRouteUser
         )
         searchScreen(
             navController = navController,
@@ -105,27 +101,40 @@ fun NavGraphBuilder.favoritesGraph(
     }
 }
 
-fun NavGraphBuilder.profileGraph(
+fun NavController.openPhoto(
+    photoId: String,
+    route: String,
+    canNavigateToProfile: Boolean = true
+) {
+    this.navigate(
+        route = "$route$photoId/$canNavigateToProfile",
+    )
+}
+
+fun NavController.openProfile(username: String, route: String) {
+    this.navigate(
+        route = route + username
+    )
+}
+
+fun NavGraphBuilder.profileScreen(
     navController: NavController,
     profile: ProfileEntry,
     photo: PhotoEntry
 ) {
-    navigation(startDestination = profile.featureRoute, route = PROFILE_GRAPH_ROUTE) {
-        composable(route = profile.featureRoute) {
-            profile.start(
-                profileId = "",
-                navigateToPhoto = { photoId ->
-                    navController.openPhoto(photoId, photo.featureRoute)
-                },
-            )
-        }
+    composable(
+        route = profile.featureRouteArg,
+        arguments = listOf(navArgument(profile.profileIdArg) { type = NavType.StringType })
+    ) {
+        val profileUsername = it.arguments?.getString(profile.profileIdArg) ?: ""
+        profile.Start(
+            username = profileUsername,
+            navigateToPhoto = { photoId ->
+                navController.openPhoto(photoId, photo.featureRoute, false)
+            },
+            navigateBack = { navController.popBackStack() }
+        )
     }
-}
-
-fun NavController.openPhoto(photoId: String, route: String) {
-    this.navigate(
-        route = route + photoId,
-    )
 }
 
 fun NavGraphBuilder.photoScreen(
@@ -135,14 +144,22 @@ fun NavGraphBuilder.photoScreen(
 ) {
     composable(
         route = photo.featureRouteArg,
-        arguments = listOf(navArgument(photo.photoIdArg) { type = NavType.StringType })
+        arguments = listOf(
+            navArgument(photo.photoIdArg) { type = NavType.StringType },
+            navArgument(photo.canNavigateToProfileArg) { type = NavType.BoolType }
+        )
     ) {
         val photoId = it.arguments?.getString(photo.photoIdArg) ?: ""
+        val canNavigateToProfile = it.arguments?.getBoolean(photo.canNavigateToProfileArg) ?: true
         photo.Start(
             photoId = photoId,
             navigateBack = { navController.popBackStack() },
-            navigateToProfile = {
-                navController.navigate(profileRoute)
+            navigateToProfile = { username ->
+                if (canNavigateToProfile) {
+                    navController.openProfile(username, profileRoute)
+                } else {
+                    navController.popBackStack()
+                }
             }
         )
     }

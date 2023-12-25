@@ -33,4 +33,6 @@
     <string name="likes_label">Likes</string>
     <string name="photos">Photos</string>
     <string name="followers">Followers</string>
+    <string name="username">@</string>
+    <string name="no_photos">User does not have any photos</string>
 </resources>
