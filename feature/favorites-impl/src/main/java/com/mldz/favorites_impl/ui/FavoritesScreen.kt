@@ -1,6 +1,5 @@
 package com.mldz.favorites_impl.ui
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -10,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -30,7 +28,6 @@ import com.mldz.core.ui.R
 import com.mldz.core.ui.component.PhotoCard
 import com.mldz.core.ui.component.PhotoCardLoader
 import com.mldz.core.ui.component.PhotoFeed
-import com.mldz.core.ui.theme.GrayMercury
 import com.mldz.photo_api.models.Photo
 import org.koin.androidx.compose.koinViewModel
 import com.mldz.core.ui.R as uiR

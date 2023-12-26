@@ -13,7 +13,6 @@ internal class PhotoEntryImpl: PhotoEntry() {
 
     @Composable
     override fun Start(
-        photoId: String,
         navigateBack: () -> Unit,
         navigateToProfile: (String) -> Unit
     ) {

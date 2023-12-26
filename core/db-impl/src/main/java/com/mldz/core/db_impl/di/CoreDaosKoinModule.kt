@@ -1,7 +1,6 @@
 package com.mldz.core.db_impl.di
 
 import com.mldz.core.db_impl.Database
-import org.koin.core.annotation.ComponentScan
 import org.koin.core.annotation.Module
 import org.koin.core.annotation.Single
 

@@ -3,14 +3,11 @@ package com.mldz.core.db_impl.di
 import android.content.Context
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
-import androidx.paging.PagingSource
 import androidx.room.Room
-import com.mldz.core.db_api.entity.PhotoBookmarkEntity
 import com.mldz.core.db_impl.Database
 import com.mldz.core.db_impl.dao.BookmarkDao
 import com.mldz.core.db_impl.entity.Bookmark
 import org.koin.core.annotation.ComponentScan
-import org.koin.core.annotation.Factory
 import org.koin.core.annotation.Module
 import org.koin.core.annotation.Named
 import org.koin.core.annotation.Single

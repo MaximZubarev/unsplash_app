@@ -16,13 +16,7 @@ android {
         val keystoreFile = project.rootProject.file("apikeys.properties")
         val properties = Properties()
         properties.load(keystoreFile.inputStream())
-        val apiUrl = properties.getProperty("API_URL") ?: ""
         val apiKey = properties.getProperty("API_KEY") ?: ""
-        buildConfigField(
-            type = "String",
-            name = "API_URL",
-            value = apiUrl
-        )
         buildConfigField(
             type = "String",
             name = "API_KEY",

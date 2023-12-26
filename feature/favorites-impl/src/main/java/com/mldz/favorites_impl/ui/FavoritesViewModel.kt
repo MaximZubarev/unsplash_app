@@ -1,14 +1,13 @@
 package com.mldz.favorites_impl.ui
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.mldz.core.common.base.BaseViewModel
-import com.mldz.photo_api.domain.GetBookmarksUseCase
+import com.mldz.photo_api.usecase.GetBookmarksUseCase
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.koin.android.annotation.KoinViewModel
 
 
@@ -30,20 +29,19 @@ class FavoritesViewModel(
     }
 
     private fun loadPhotos() {
-        viewModelScope.launch {
-            getBookmarksUseCase.invoke()
-                .cachedIn(viewModelScope)
-                .catch {
-                    setState { FavoritesContract.State(isLoading = false, error = it.message) }
+        getBookmarksUseCase()
+            .cachedIn(viewModelScope)
+            .onEach {
+                setState {
+                    FavoritesContract.State(
+                        isLoading = false,
+                        list = flowOf(it)
+                    )
                 }
-                .collect {
-                    setState {
-                        FavoritesContract.State(
-                            isLoading = false,
-                            list = flowOf(it)
-                        )
-                    }
-                }
-        }
+            }
+            .catch {
+                setState { FavoritesContract.State(isLoading = false, error = it.message) }
+            }
+            .launchIn(viewModelScope)
     }
 }

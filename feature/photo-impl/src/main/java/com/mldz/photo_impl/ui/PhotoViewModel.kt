@@ -3,13 +3,15 @@ package com.mldz.photo_impl.ui
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.mldz.core.common.base.BaseViewModel
-import com.mldz.photo_api.domain.BookmarkPhotoUseCase
-import com.mldz.photo_api.domain.GetPhotoByIdUseCase
-import com.mldz.photo_api.domain.LikePhotoUseCase
+import com.mldz.photo_api.usecase.BookmarkPhotoUseCase
+import com.mldz.photo_api.usecase.GetPhotoByIdUseCase
+import com.mldz.photo_api.usecase.LikePhotoUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.koin.android.annotation.KoinViewModel
 
@@ -48,21 +50,23 @@ class PhotoViewModel(
 
     @OptIn(ExperimentalCoroutinesApi::class)
     private fun loadPhoto() {
-        viewModelScope.launch {
-            idState.flatMapLatest {
-                getPhotoUseCase.invoke(photoId = it)
-            }.catch {
-                setState { currentState.copy(isLoading = false, error = it.message) }
-            }.collect {
+        idState
+            .flatMapLatest {
+                getPhotoUseCase(photoId = it)
+            }
+            .onEach {
                 setState { currentState.copy(isLoading = false, error = null, photo = it, showDetails = false) }
             }
-        }
+            .catch {
+                setState { currentState.copy(isLoading = false, error = it.message) }
+            }
+            .launchIn(viewModelScope)
     }
 
     private fun likePhoto() {
         viewModelScope.launch {
             currentState.photo?.let {
-                val res = likePhotoUseCase.invoke(it.id, !it.likedByUser)
+                val res = likePhotoUseCase(it.id, !it.likedByUser)
                 if (res) {
                     setState { currentState.copy(photo = photo?.copy(likedByUser = !it.likedByUser)) }
                     setEffect { PhotoContract.Effect.ShowLiked }

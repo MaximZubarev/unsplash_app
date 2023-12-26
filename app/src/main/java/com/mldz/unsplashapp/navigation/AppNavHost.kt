@@ -20,6 +20,7 @@ import org.koin.compose.rememberKoinInject
 
 const val PHOTO_FEED_GRAPH_ROUTE = "photo_feed_graph_route"
 const val FAVORITES_GRAPH_ROUTE = "favorites_graph_route"
+const val PROFILE_GRAPH_ROUTE = "profile_graph_route"
 
 @Composable
 fun AppNavHost(
@@ -29,6 +30,7 @@ fun AppNavHost(
     val photoFeed = rememberKoinInject<PhotoFeedEntry>()
     val favorites = rememberKoinInject<FavoritesEntry>()
     val profile = rememberKoinInject<ProfileEntry>()
+    val myProfile = rememberKoinInject<ProfileEntry>()
     val photo = rememberKoinInject<PhotoEntry>()
     val search = rememberKoinInject<SearchEntry>()
     NavHost(
@@ -47,19 +49,24 @@ fun AppNavHost(
             favorites = favorites,
             photo = photo
         )
-        profileScreen(
+        profileGraph(
             navController = navController,
-            profile = profile,
+            profile = myProfile,
             photo = photo
         )
         photoScreen(
             navController = navController,
             photo = photo,
-            profileRoute = profile.featureRouteUser
+            profileRoute = profile.featureRoute
         )
         searchScreen(
             navController = navController,
             search = search,
+            photoRoute = photo.featureRoute
+        )
+        profileScreen(
+            navController = navController,
+            profile = myProfile,
             photoRoute = photo.featureRoute
         )
     }
@@ -95,7 +102,34 @@ fun NavGraphBuilder.favoritesGraph(
             favorites.Start(
                 navigateToPhoto = { photoId ->
                     navController.openPhoto(photoId, photo.featureRoute)
+                }
+            )
+        }
+    }
+}
+
+fun NavGraphBuilder.profileGraph(
+    navController: NavController,
+    profile: ProfileEntry,
+    photo: PhotoEntry
+) {
+    navigation(startDestination = profile.featureRouteMyProfile, route = PROFILE_GRAPH_ROUTE) {
+        composable(
+            route = profile.featureRouteMyProfile,
+            arguments = listOf(
+                navArgument(
+                    profile.profileIdArg
+                ) {
+                    defaultValue = profile.defaultArg
+                    type = NavType.StringType
+                }
+            )
+        ) {
+            profile.Start(
+                navigateToPhoto = { photoId ->
+                    navController.openPhoto(photoId, photo.featureRoute, false)
                 },
+                navigateBack = null
             )
         }
     }
@@ -117,26 +151,6 @@ fun NavController.openProfile(username: String, route: String) {
     )
 }
 
-fun NavGraphBuilder.profileScreen(
-    navController: NavController,
-    profile: ProfileEntry,
-    photo: PhotoEntry
-) {
-    composable(
-        route = profile.featureRouteArg,
-        arguments = listOf(navArgument(profile.profileIdArg) { type = NavType.StringType })
-    ) {
-        val profileUsername = it.arguments?.getString(profile.profileIdArg) ?: ""
-        profile.Start(
-            username = profileUsername,
-            navigateToPhoto = { photoId ->
-                navController.openPhoto(photoId, photo.featureRoute, false)
-            },
-            navigateBack = { navController.popBackStack() }
-        )
-    }
-}
-
 fun NavGraphBuilder.photoScreen(
     navController: NavController,
     photo: PhotoEntry,
@@ -149,10 +163,8 @@ fun NavGraphBuilder.photoScreen(
             navArgument(photo.canNavigateToProfileArg) { type = NavType.BoolType }
         )
     ) {
-        val photoId = it.arguments?.getString(photo.photoIdArg) ?: ""
         val canNavigateToProfile = it.arguments?.getBoolean(photo.canNavigateToProfileArg) ?: true
         photo.Start(
-            photoId = photoId,
             navigateBack = { navController.popBackStack() },
             navigateToProfile = { username ->
                 if (canNavigateToProfile) {
@@ -173,6 +185,31 @@ fun NavGraphBuilder.searchScreen(
     composable(route = search.featureRoute) {
         search.Start(
             navigateToPhoto = { navController.openPhoto(it, photoRoute) },
+            navigateBack = { navController.popBackStack() }
+        )
+    }
+}
+
+fun NavGraphBuilder.profileScreen(
+    navController: NavController,
+    profile: ProfileEntry,
+    photoRoute: String
+) {
+    composable(
+        route = profile.featureRouteArg,
+        arguments = listOf(
+            navArgument(
+                profile.profileIdArg
+            ) {
+                defaultValue = profile.defaultArg
+                type = NavType.StringType
+            }
+        )
+    ) {
+        profile.Start(
+            navigateToPhoto = { photoId ->
+                navController.openPhoto(photoId, photoRoute, false)
+            },
             navigateBack = { navController.popBackStack() }
         )
     }

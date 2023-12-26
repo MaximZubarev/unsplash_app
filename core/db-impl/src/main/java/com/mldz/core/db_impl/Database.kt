@@ -1,7 +1,6 @@
 package com.mldz.core.db_impl
 
 import androidx.room.Database
-import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.mldz.core.db_impl.dao.BookmarkDao
 import com.mldz.core.db_impl.entity.Bookmark

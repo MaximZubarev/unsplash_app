@@ -5,7 +5,6 @@ import com.mldz.core.common.base.UiEffect
 import com.mldz.core.common.base.UiEvent
 import com.mldz.core.common.base.UiState
 import com.mldz.photo_api.models.Photo
-import com.mldz.photo_api.models.PhotoDetail
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 

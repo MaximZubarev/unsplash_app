@@ -12,7 +12,6 @@ abstract class PhotoEntry {
 
     @Composable
     abstract fun Start(
-        photoId: String,
         navigateBack: () -> Unit,
         navigateToProfile: (String) -> Unit
     )

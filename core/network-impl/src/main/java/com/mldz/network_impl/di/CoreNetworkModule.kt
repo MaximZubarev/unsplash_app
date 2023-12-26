@@ -13,6 +13,8 @@ import org.koin.core.annotation.Single
 import retrofit2.Retrofit
 
 
+private const val API_URL = "https://api.unsplash.com"
+
 @Module
 @ComponentScan("com.mldz.network_impl")
 class CoreNetworkModule {
@@ -31,7 +33,7 @@ class CoreNetworkModule {
             .build()
         return Retrofit.Builder()
             .client(client)
-            .baseUrl(BuildConfig.API_URL)
+            .baseUrl(API_URL)
             .addConverterFactory(json().asConverterFactory(contentType))
             .build()
             .create(RetrofitService::class.java)

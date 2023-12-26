@@ -1,6 +1,5 @@
 package com.mldz.core.ui.component
 
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable

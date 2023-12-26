@@ -292,7 +292,8 @@ fun Author(
             error = painterResource(id = uiR.drawable.take_a_photo),
             modifier = Modifier
                 .size(40.dp)
-                .clip(CircleShape),
+                .clip(CircleShape)
+                .clickable(onClick = onUserClick),
         )
         Spacer(modifier = Modifier.size(10.dp))
         Column {

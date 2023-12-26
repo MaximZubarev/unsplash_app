@@ -1,6 +1,5 @@
-package com.mldz.photo_impl.data
+package com.mldz.photo_impl.repository
 
-import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -11,7 +10,7 @@ import com.mldz.network_api.NetworkApi
 import com.mldz.photo_api.models.Photo
 import com.mldz.photo_api.models.PhotoDetail
 import com.mldz.photo_api.models.toPhotoDetail
-import com.mldz.photo_api.domain.PhotoRepository
+import com.mldz.photo_api.repository.PhotoRepository
 import com.mldz.photo_impl.paging.SearchPaging
 import com.mldz.photo_impl.paging.UserPhotosPaging
 import kotlinx.coroutines.flow.Flow
@@ -25,7 +24,7 @@ internal class PhotoRepositoryImpl(
     private val remoteDataSource: NetworkApi,
     private val localDataSource: DatabaseSource,
     private val pagerFeed: Pager<Int, Photo>,
-): PhotoRepository {
+) : PhotoRepository {
     override fun getPhotoFeed(): Flow<PagingData<Photo>> {
         return pagerFeed.flow
     }
@@ -39,7 +38,7 @@ internal class PhotoRepositoryImpl(
         ).flow
     }
 
-    override fun getBookmarks(page: Int): Flow<PagingData<Photo>> {
+    override fun getBookmarks(): Flow<PagingData<Photo>> {
         return localDataSource.getBookmarkedPhotos().map {
             it.map { entity -> Photo(entity.id, entity.url) }
         }

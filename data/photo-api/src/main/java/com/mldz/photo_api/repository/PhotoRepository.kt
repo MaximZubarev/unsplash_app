@@ -1,4 +1,4 @@
-package com.mldz.photo_api.domain
+package com.mldz.photo_api.repository
 
 import androidx.paging.PagingData
 import com.mldz.photo_api.models.Photo
@@ -12,7 +12,7 @@ interface PhotoRepository {
 
     fun getSearchedPhoto(query: String): Flow<PagingData<Photo>>
 
-    fun getBookmarks(page: Int): Flow<PagingData<Photo>>
+    fun getBookmarks(): Flow<PagingData<Photo>>
 
     fun getPhoto(id: String): Flow<PhotoDetail>
 

@@ -6,15 +6,15 @@ import com.mldz.core.common.feature.FeatureEntry
 
 abstract class ProfileEntry : FeatureEntry {
 
-    override val featureRoute = "profile_route/me"
-    val featureRouteUser = "profile_route/"
+    override val featureRoute = "profile_route/"
     val profileIdArg = "profileIdArg"
+    val defaultArg = "me"
+    val featureRouteMyProfile = "profile_route/$defaultArg"
     val featureRouteArg = "profile_route/{$profileIdArg}"
 
     @Composable
     abstract fun Start(
-        username: String,
         navigateToPhoto: (String) -> Unit,
-        navigateBack: () -> Unit
+        navigateBack: (() -> Boolean)?
     )
 }

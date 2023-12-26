@@ -5,17 +5,16 @@ import com.mldz.feature.profile.ProfileEntry
 import com.mldz.profile_impl.ui.ProfileScreen
 import com.mldz.profile_impl.ui.ProfileViewModel
 import org.koin.androidx.compose.koinViewModel
-import org.koin.core.annotation.Single
+import org.koin.core.annotation.Factory
 
 
-@Single
+@Factory
 class ProfileEntryImpl: ProfileEntry() {
 
     @Composable
     override fun Start(
-        username: String,
         navigateToPhoto: (String) -> Unit,
-        navigateBack: () -> Unit
+        navigateBack: (() -> Boolean)?
     ) {
         val viewModel = koinViewModel<ProfileViewModel>()
         ProfileScreen(

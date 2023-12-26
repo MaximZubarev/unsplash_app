@@ -3,12 +3,11 @@ package com.mldz.profile_impl.ui
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.mldz.core.common.base.BaseViewModel
-import com.mldz.profile_api.domain.GetUserProfileUseCase
+import com.mldz.profile_api.usecase.GetUserProfileUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import org.koin.android.annotation.KoinViewModel
 
 
@@ -24,9 +23,6 @@ class ProfileViewModel(
 
     init {
         loadProfile()
-        viewModelScope.launch {
-            usernameState.emit(username)
-        }
     }
 
     override fun createInitialState(): ProfileContract.State {
@@ -41,14 +37,12 @@ class ProfileViewModel(
     }
 
     private fun restartLoad() {
-        viewModelScope.launch {
-            setState {
-                currentState.copy(
-                    isLoading = true,
-                    error = null,
-                    profile = null
-                )
-            }
+        setState {
+            currentState.copy(
+                isLoading = true,
+                error = null,
+                profile = null
+            )
         }
         loadProfile()
     }
@@ -56,7 +50,7 @@ class ProfileViewModel(
     private fun loadProfile() {
         usernameState
             .onEach {
-                val profile = getUserProfileUseCase.invoke(username = it)
+                val profile = getUserProfileUseCase(username = it)
                 setState {
                     currentState.copy(
                         isLoading = false,

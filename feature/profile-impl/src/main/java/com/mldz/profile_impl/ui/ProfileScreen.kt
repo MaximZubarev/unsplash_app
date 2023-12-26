@@ -13,9 +13,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -40,28 +38,27 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.LoadState
+import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.itemKey
 import coil.compose.AsyncImage
+import com.mldz.core.ui.R
 import com.mldz.core.ui.component.ErrorLoading
 import com.mldz.core.ui.component.Loader
 import com.mldz.core.ui.component.Location
-import com.mldz.core.ui.icon.Icons
-import com.mldz.core.ui.preview.BlackWhiteBackgroundPreview
-import com.mldz.profile_api.models.Profile
-import kotlinx.coroutines.flow.Flow
-import com.mldz.core.ui.R as uiR
-import androidx.paging.compose.collectAsLazyPagingItems
-import androidx.paging.compose.itemKey
-import com.mldz.core.ui.R
 import com.mldz.core.ui.component.PhotoCard
 import com.mldz.core.ui.component.PhotoCardLoader
 import com.mldz.core.ui.component.PhotoFeed
+import com.mldz.core.ui.icon.Icons
+import com.mldz.core.ui.preview.BlackWhiteBackgroundPreview
+import com.mldz.profile_api.models.Profile
+import com.mldz.core.ui.R as uiR
 
 
 @Composable
 fun ProfileScreen(
     viewModel: ProfileViewModel,
     navigateToPhoto: (String) -> Unit,
-    navigateBack: () -> Unit
+    navigateBack: (() -> Boolean)? = null
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     ProfileScreen(
@@ -78,7 +75,7 @@ fun ProfileScreen(
 fun ProfileScreen(
     state: ProfileContract.State,
     navigateToPhoto: (String) -> Unit,
-    navigateBack: () -> Unit,
+    navigateBack: (() -> Boolean)? = null,
     onRepeatLoad: () -> Unit
 ) {
     Scaffold(
@@ -114,7 +111,7 @@ fun ProfileScreen(
 @Composable
 fun AppBar(
     title: String?,
-    navigateBack: () -> Unit
+    navigateBack: (() -> Boolean)? = null
 ) {
     CenterAlignedTopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
@@ -131,11 +128,13 @@ fun AppBar(
             }
         },
         navigationIcon = {
-            IconButton(onClick = navigateBack) {
-                Icon(
-                    imageVector = Icons.Back,
-                    contentDescription = null
-                )
+            navigateBack?.let {
+                IconButton(onClick = { it() }) {
+                    Icon(
+                        imageVector = Icons.Back,
+                        contentDescription = null
+                    )
+                }
             }
         },
         windowInsets = WindowInsets(

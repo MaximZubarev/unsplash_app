@@ -20,7 +20,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mldz.core.ui.R
 import com.mldz.core.ui.preview.BlackWhiteBackgroundPreview
-import com.mldz.core.ui.preview.ThemePreviews
 import com.mldz.core.ui.theme.GrayMercury
 
 

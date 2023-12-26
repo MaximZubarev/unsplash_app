@@ -1,4 +1,4 @@
-package com.mldz.profile_impl.domain
+package com.mldz.profile_impl.repository
 
 import com.mldz.profile_api.models.Profile
 

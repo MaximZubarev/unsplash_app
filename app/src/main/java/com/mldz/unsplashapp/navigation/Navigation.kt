@@ -16,13 +16,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.navOptions
-import com.mldz.core.common.feature.FeatureEntry
 import com.mldz.core.ui.icon.Icon
 import com.mldz.core.ui.icon.Icons
-import com.mldz.favorites.FavoritesEntry
-import com.mldz.feature.profile.ProfileEntry
-import com.mldz.photo_feed_api.PhotoFeedEntry
-import org.koin.compose.rememberKoinInject
 import com.mldz.core.ui.R as uiR
 
 
@@ -54,16 +49,6 @@ private val screens = TopLevelDestination.entries
 fun BottomNavigation(
     navController: NavController
 ) {
-    val photoFeed = rememberKoinInject<PhotoFeedEntry>()
-    val favorites = rememberKoinInject<FavoritesEntry>()
-    val profile = rememberKoinInject<ProfileEntry>()
-    val screensMap = remember {
-        mapOf(
-            TopLevelDestination.PHOTO_FEED to photoFeed,
-            TopLevelDestination.FAVORITES to favorites,
-            TopLevelDestination.PROFILE to profile
-        )
-    }
     NavigationBar(
         containerColor = Color.Transparent
     ) {
@@ -94,7 +79,7 @@ fun BottomNavigation(
                 },
                 onClick = {
                     currentTab = destination
-                    onNavigateToDestination(navController, destination, screensMap)
+                    onNavigateToDestination(navController, destination)
                 }
             )
         }
@@ -104,7 +89,6 @@ fun BottomNavigation(
 private fun onNavigateToDestination(
     navController: NavController,
     destination: TopLevelDestination,
-    screensMap: Map<TopLevelDestination, FeatureEntry>
 ) {
     val topLevelNavOptions = navOptions {
         popUpTo(navController.graph.findStartDestination().id) {
@@ -113,8 +97,10 @@ private fun onNavigateToDestination(
         launchSingleTop = true
         restoreState = true
     }
-    screensMap[destination]?.let {
-        navController.navigate(it.featureRoute, topLevelNavOptions)
+    when (destination) {
+        TopLevelDestination.PHOTO_FEED -> navController.navigate(PHOTO_FEED_GRAPH_ROUTE, topLevelNavOptions)
+        TopLevelDestination.FAVORITES -> navController.navigate(FAVORITES_GRAPH_ROUTE, topLevelNavOptions)
+        TopLevelDestination.PROFILE -> navController.navigate(PROFILE_GRAPH_ROUTE, topLevelNavOptions)
     }
 }
 

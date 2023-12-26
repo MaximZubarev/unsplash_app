@@ -45,15 +45,10 @@ internal fun PhotoFeedScreen(
     viewModel: PhotoFeedViewModel = koinViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    var items: LazyPagingItems<Photo>? = null
-    if (uiState.state is PhotoFeedContract.PhotoFeedUiState.Success) {
-        items = (uiState.state as PhotoFeedContract.PhotoFeedUiState.Success).list.collectAsLazyPagingItems()
-    }
     ListPhotoScreen(
         navigateToPhoto = navigateToPhoto,
         navigateToSearch = navigateToSearch,
         uiState = uiState.state,
-        items = items,
         repeatLoad = { viewModel.setEvent(PhotoFeedContract.Event.OnRepeatLoad) }
     )
 }
@@ -63,8 +58,7 @@ internal fun ListPhotoScreen(
     navigateToPhoto: (String) -> Unit,
     navigateToSearch: () -> Unit,
     repeatLoad: () -> Unit,
-    uiState: PhotoFeedContract.PhotoFeedUiState,
-    items: LazyPagingItems<Photo>?
+    uiState: PhotoFeedContract.PhotoFeedUiState
 ) {
     Column {
         AppBar(
@@ -81,24 +75,23 @@ internal fun ListPhotoScreen(
             is PhotoFeedContract.PhotoFeedUiState.Loading -> Loader(modifier = Modifier.fillMaxSize())
             is PhotoFeedContract.PhotoFeedUiState.Error -> ErrorAppend(uiState.message)
             is PhotoFeedContract.PhotoFeedUiState.Success -> {
+                val items = uiState.list.collectAsLazyPagingItems()
                 Box {
-                    items?.let {
-                        when (items.loadState.refresh) {
-                            is LoadState.Error -> {
-                                ErrorLoading(
-                                    message = (items.loadState.refresh as LoadState.Error).error.message,
-                                    modifier = Modifier.fillMaxSize(),
-                                    onRepeat = repeatLoad
-                                )
-                            }
-                            is LoadState.Loading -> Loader(modifier = Modifier.fillMaxSize())
-                            else -> {
-                                Content(items = items, navigateToPhoto = navigateToPhoto)
-                            }
+                    when (items.loadState.refresh) {
+                        is LoadState.Error -> {
+                            ErrorLoading(
+                                message = (items.loadState.refresh as LoadState.Error).error.message,
+                                modifier = Modifier.fillMaxSize(),
+                                onRepeat = repeatLoad
+                            )
                         }
-                        if (items.loadState.append is LoadState.Error) {
-                            ErrorAppend((items.loadState.append as LoadState.Error).error.message)
+                        is LoadState.Loading -> Loader(modifier = Modifier.fillMaxSize())
+                        else -> {
+                            Content(items = items, navigateToPhoto = navigateToPhoto)
                         }
+                    }
+                    if (items.loadState.append is LoadState.Error) {
+                        ErrorAppend((items.loadState.append as LoadState.Error).error.message)
                     }
                 }
             }

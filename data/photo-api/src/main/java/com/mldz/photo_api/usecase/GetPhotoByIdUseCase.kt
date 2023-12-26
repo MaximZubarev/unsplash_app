@@ -1,6 +1,5 @@
-package com.mldz.photo_api.domain
+package com.mldz.photo_api.usecase
 
-import com.mldz.photo_api.models.Photo
 import com.mldz.photo_api.models.PhotoDetail
 import kotlinx.coroutines.flow.Flow
 
