@@ -2,6 +2,14 @@
 
 Android app with photos from unsplash
 
+## Video Demo
+
+<video width="320" height="240" controls>
+  <source src="example.webm" type="example/webm">
+  Your browser does not support the video tag.
+</video>
+
+
 ## Installation
 
 To ensure the correct functionality, it's necessary to add your `Unsplash client ID` by following these steps:
