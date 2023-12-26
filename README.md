@@ -4,10 +4,7 @@ Android app with photos from unsplash
 
 ## Video Demo
 
-<video width="320" height="240" controls>
-  <source src="example.mp4" type="example/mp4">
-  Your browser does not support the video tag.
-</video>
+https://github.com/MaximZubarev/unsplash_app/assets/25151824/f28287bd-4682-4425-879a-aecb61bcb565
 
 
 ## Installation
