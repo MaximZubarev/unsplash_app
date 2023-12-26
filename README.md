@@ -5,7 +5,7 @@ Android app with photos from unsplash
 ## Video Demo
 
 <video width="320" height="240" controls>
-  <source src="example.webm" type="example/webm">
+  <source src="example.mp4" type="example/mp4">
   Your browser does not support the video tag.
 </video>
 
