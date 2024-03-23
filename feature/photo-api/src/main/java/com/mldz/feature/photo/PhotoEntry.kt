@@ -13,6 +13,7 @@ abstract class PhotoEntry {
     @Composable
     abstract fun Start(
         navigateBack: () -> Unit,
-        navigateToProfile: (String) -> Unit
+        navigateToProfile: (String) -> Unit,
+        navigateToShare: (String?, String?) -> Unit
     )
 }

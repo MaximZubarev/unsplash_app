@@ -21,6 +21,8 @@
             <option value="$PROJECT_DIR$/data" />
             <option value="$PROJECT_DIR$/data/photo-api" />
             <option value="$PROJECT_DIR$/data/photo-impl" />
+            <option value="$PROJECT_DIR$/data/profile-api" />
+            <option value="$PROJECT_DIR$/data/profile-impl" />
             <option value="$PROJECT_DIR$/feature" />
             <option value="$PROJECT_DIR$/feature/favorites-api" />
             <option value="$PROJECT_DIR$/feature/favorites-impl" />

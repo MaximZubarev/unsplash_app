@@ -36,11 +36,11 @@ enum class TopLevelDestination(
         unselectedIcon = Icon.ImageVectorIcon(Icons.Bookmarks),
         titleTextId = uiR.string.saved
     ),
-    PROFILE(
-        selectedIcon = Icon.ImageVectorIcon(Icons.ProfileSelected),
-        unselectedIcon = Icon.ImageVectorIcon(Icons.Profile),
-        titleTextId = uiR.string.profile
-    )
+//    PROFILE(
+//        selectedIcon = Icon.ImageVectorIcon(Icons.ProfileSelected),
+//        unselectedIcon = Icon.ImageVectorIcon(Icons.Profile),
+//        titleTextId = uiR.string.profile
+//    )
 }
 
 private val screens = TopLevelDestination.entries
@@ -100,7 +100,7 @@ private fun onNavigateToDestination(
     when (destination) {
         TopLevelDestination.PHOTO_FEED -> navController.navigate(PHOTO_FEED_GRAPH_ROUTE, topLevelNavOptions)
         TopLevelDestination.FAVORITES -> navController.navigate(FAVORITES_GRAPH_ROUTE, topLevelNavOptions)
-        TopLevelDestination.PROFILE -> navController.navigate(PROFILE_GRAPH_ROUTE, topLevelNavOptions)
+//        TopLevelDestination.PROFILE -> navController.navigate(PROFILE_GRAPH_ROUTE, topLevelNavOptions)
     }
 }
 

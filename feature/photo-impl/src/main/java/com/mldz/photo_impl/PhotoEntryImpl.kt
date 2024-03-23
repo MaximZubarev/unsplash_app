@@ -14,13 +14,15 @@ internal class PhotoEntryImpl: PhotoEntry() {
     @Composable
     override fun Start(
         navigateBack: () -> Unit,
-        navigateToProfile: (String) -> Unit
+        navigateToProfile: (String) -> Unit,
+        navigateToShare: (String?, String?) -> Unit,
     ) {
         val viewModel = koinViewModel<PhotoViewModel>()
         PhotoScreen(
             viewModel = viewModel,
             navigateBack = navigateBack,
-            navigateToProfile = navigateToProfile
+            navigateToProfile = navigateToProfile,
+            navigateToShare = navigateToShare
         )
     }
 }

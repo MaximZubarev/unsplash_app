@@ -66,7 +66,8 @@ private const val SIDE_MARGINS = 10
 fun PhotoScreen(
     viewModel: PhotoViewModel,
     navigateBack: () -> Unit,
-    navigateToProfile: (String) -> Unit
+    navigateToProfile: (String) -> Unit,
+    navigateToShare: (String?, String?) -> Unit
 ) {
     val photo by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
@@ -79,6 +80,7 @@ fun PhotoScreen(
                 is PhotoContract.Effect.ShowBookmarked -> {
                     Toast.makeText(context, uiR.string.bookmarked, Toast.LENGTH_SHORT).show()
                 }
+                is PhotoContract.Effect.NavigateToShare -> navigateToShare(it.title, it.link)
             }
         }
     }
@@ -89,7 +91,8 @@ fun PhotoScreen(
         onShowDetails = { viewModel.setEvent(PhotoContract.Event.OnShowDetails) },
         onLike = { viewModel.setEvent(PhotoContract.Event.OnLike) },
         onBookmark = { viewModel.setEvent(PhotoContract.Event.OnBookmark) },
-        onRepeatLoad = { viewModel.setEvent(PhotoContract.Event.OnRepeatLoad) }
+        onRepeatLoad = { viewModel.setEvent(PhotoContract.Event.OnRepeatLoad) },
+        onShareClick = { viewModel.setEvent(PhotoContract.Event.OnShareClicked) },
     )
 }
 
@@ -101,7 +104,8 @@ fun PhotoScreen(
     onShowDetails: () -> Unit,
     onLike: () -> Unit,
     onBookmark: () -> Unit,
-    onRepeatLoad: () -> Unit
+    onRepeatLoad: () -> Unit,
+    onShareClick: () -> Unit
 ) {
     var appBarTitle = remember {
         mutableStateOf("")
@@ -134,7 +138,8 @@ fun PhotoScreen(
                     PhotoView(
                         state = state,
                         onExifClick = onShowDetails,
-                        onUserClick = navigateToProfile
+                        onUserClick = navigateToProfile,
+                        onShareClick = onShareClick
                     )
                 }
             }
@@ -189,7 +194,8 @@ fun AppBar(
 fun PhotoView(
     state: PhotoContract.State,
     onExifClick: () -> Unit,
-    onUserClick: (String) -> Unit
+    onUserClick: (String) -> Unit,
+    onShareClick: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -214,7 +220,8 @@ fun PhotoView(
         PhotoDetails(
             state = state,
             onExifClick = onExifClick,
-            onUserClick = { state.photo?.user?.username?.let { onUserClick(it) } }
+            onUserClick = { state.photo?.user?.username?.let { onUserClick(it) } },
+            onShareClick = onShareClick
         )
     }
 }
@@ -237,11 +244,13 @@ fun PhotoDetailsPreview() {
                 Exif("make", "model", "name", "expTime", "aper", "length", 100),
                 "Moscow",
                 "07 08 01997",
-                "desc"
+                "desc",
+                link = ""
             )
         ),
         onExifClick = { },
-        onUserClick = {  }
+        onUserClick = { },
+        onShareClick = { }
     )
 }
 
@@ -249,7 +258,8 @@ fun PhotoDetailsPreview() {
 fun PhotoDetails(
     state: PhotoContract.State,
     onExifClick: () -> Unit,
-    onUserClick: () -> Unit
+    onUserClick: () -> Unit,
+    onShareClick: () -> Unit
 ) {
     val photo = state.photo
     photo?.let {
@@ -261,7 +271,8 @@ fun PhotoDetails(
                 name = photo.user?.name,
                 userImage = photo.user?.userPhoto,
                 description = photo.description,
-                onUserClick = onUserClick
+                onUserClick = onUserClick,
+                onShareClick = onShareClick
             )
             Spacer(modifier = Modifier.size(20.dp))
             PhotoMainInfo(photo = photo)
@@ -281,10 +292,12 @@ fun Author(
     name: String?,
     userImage: String?,
     description: String?,
-    onUserClick: () -> Unit
+    onUserClick: () -> Unit,
+    onShareClick: () -> Unit,
 ) {
     Row(
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(10.dp)
     ) {
         AsyncImage(
             model = userImage,
@@ -295,8 +308,9 @@ fun Author(
                 .clip(CircleShape)
                 .clickable(onClick = onUserClick),
         )
-        Spacer(modifier = Modifier.size(10.dp))
-        Column {
+        Column(
+            modifier = Modifier.weight(1f)
+        ) {
             name?.let {
                 Text(
                     text = it,
@@ -311,6 +325,13 @@ fun Author(
                     color = Color.Gray
                 )
             }
+        }
+        IconButton(onClick = onShareClick) {
+            Icon(
+                imageVector = Icons.Share,
+                tint = MaterialTheme.colorScheme.onSurface,
+                contentDescription = null
+            )
         }
     }
 }

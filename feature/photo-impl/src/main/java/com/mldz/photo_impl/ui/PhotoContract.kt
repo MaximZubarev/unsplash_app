@@ -12,6 +12,8 @@ interface PhotoContract {
         object OnShowDetails: Event()
         object OnLike: Event()
         object OnBookmark: Event()
+
+        data object OnShareClicked: Event()
     }
 
     data class State(
@@ -24,5 +26,7 @@ interface PhotoContract {
     sealed class Effect: UiEffect {
         object ShowLiked: Effect()
         object ShowBookmarked: Effect()
+
+        data class NavigateToShare(val title: String?, val link: String?) : Effect()
     }
 }

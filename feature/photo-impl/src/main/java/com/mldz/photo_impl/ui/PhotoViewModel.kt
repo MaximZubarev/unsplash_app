@@ -45,6 +45,12 @@ class PhotoViewModel(
                 val show = !currentState.showDetails
                 setState { currentState.copy(showDetails = show) }
             }
+            is PhotoContract.Event.OnShareClicked -> setEffect {
+                PhotoContract.Effect.NavigateToShare(
+                    currentState.photo?.title,
+                    currentState.photo?.link
+                )
+            }
         }
     }
 

@@ -17,7 +17,8 @@ data class PhotoDetail(
     val location: String?,
     val date: String?,
     val description: String?,
-    val isBookmark: Boolean = false
+    val isBookmark: Boolean = false,
+    val link: String?
 )
 
 data class User(
@@ -60,7 +61,8 @@ fun toPhotoDetail(photoApi: PhotoDetailNetworkModel, isBookmark: Boolean, dateFo
         location = photoApi.location?.name,
         date = dateFormatter(photoApi.createdAt),
         description = photoApi.altDescription,
-        isBookmark = isBookmark
+        isBookmark = isBookmark,
+        link = photoApi.links?.self
     )
 }
 

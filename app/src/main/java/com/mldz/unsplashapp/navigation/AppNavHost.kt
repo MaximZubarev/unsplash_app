@@ -1,10 +1,12 @@
 package com.mldz.unsplashapp.navigation
 
+import android.content.Intent
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
+import androidx.navigation.NavOptions
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -21,6 +23,8 @@ import org.koin.compose.rememberKoinInject
 const val PHOTO_FEED_GRAPH_ROUTE = "photo_feed_graph_route"
 const val FAVORITES_GRAPH_ROUTE = "favorites_graph_route"
 const val PROFILE_GRAPH_ROUTE = "profile_graph_route"
+
+private const val TEXT_PLAIN = "text/plain"
 
 @Composable
 fun AppNavHost(
@@ -42,7 +46,8 @@ fun AppNavHost(
             navController = navController,
             photoFeed = photoFeed,
             photoRoute = photo.featureRoute,
-            searchRoute = search.featureRoute
+            searchRoute = search.featureRoute,
+            navigateToPhoto = { }
         )
         favoritesGraph(
             navController = navController,
@@ -76,8 +81,10 @@ fun NavGraphBuilder.photoFeedGraph(
     navController: NavController,
     photoFeed: PhotoFeedEntry,
     photoRoute: String,
-    searchRoute: String
+    searchRoute: String,
+    navigateToPhoto: () -> Unit
 ) {
+    // TODO: parametres
     navigation(startDestination = photoFeed.featureRoute, route = PHOTO_FEED_GRAPH_ROUTE) {
         composable(route = photoFeed.featureRoute) {
             photoFeed.Start(
@@ -151,6 +158,17 @@ fun NavController.openProfile(username: String, route: String) {
     )
 }
 
+private fun NavController.navigateToShare(title: String?, text: String?, navOptions: NavOptions? = null) {
+    val sendIntent: Intent = Intent().apply {
+        action = Intent.ACTION_SEND
+        putExtra(Intent.EXTRA_TEXT, text)
+        putExtra(Intent.EXTRA_TITLE, title)
+        type = TEXT_PLAIN
+    }
+    val shareIntent = Intent.createChooser(sendIntent, null)
+    context.startActivity(shareIntent)
+}
+
 fun NavGraphBuilder.photoScreen(
     navController: NavController,
     photo: PhotoEntry,
@@ -172,7 +190,8 @@ fun NavGraphBuilder.photoScreen(
                 } else {
                     navController.popBackStack()
                 }
-            }
+            },
+            navigateToShare = { title, link -> navController.navigateToShare(title, link) }
         )
     }
 }
