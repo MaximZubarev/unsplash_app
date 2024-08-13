@@ -36,6 +36,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":data:photo-api"))
 
     implementation(libs.androidx.compose.runtime)
 }

@@ -17,6 +17,8 @@ import com.mldz.feature.photo.PhotoEntry
 import com.mldz.feature.profile.ProfileEntry
 import com.mldz.feature.search.SearchEntry
 import com.mldz.photo_feed_api.PhotoFeedEntry
+import com.mldz.photo_impl.navigation.openPhoto
+import com.mldz.photo_impl.navigation.photoScreen
 import org.koin.compose.rememberKoinInject
 
 
@@ -62,7 +64,8 @@ fun AppNavHost(
         photoScreen(
             navController = navController,
             photo = photo,
-            profileRoute = profile.featureRoute
+            navigateToProfile = { userName -> navController.openProfile(userName, profile.featureRoute) },
+            navigateToShare = { title, text -> navController.navigateToShare(title, text) }
         )
         searchScreen(
             navController = navController,
@@ -142,16 +145,6 @@ fun NavGraphBuilder.profileGraph(
     }
 }
 
-fun NavController.openPhoto(
-    photoId: String,
-    route: String,
-    canNavigateToProfile: Boolean = true
-) {
-    this.navigate(
-        route = "$route$photoId/$canNavigateToProfile",
-    )
-}
-
 fun NavController.openProfile(username: String, route: String) {
     this.navigate(
         route = route + username
@@ -167,33 +160,6 @@ private fun NavController.navigateToShare(title: String?, text: String?, navOpti
     }
     val shareIntent = Intent.createChooser(sendIntent, null)
     context.startActivity(shareIntent)
-}
-
-fun NavGraphBuilder.photoScreen(
-    navController: NavController,
-    photo: PhotoEntry,
-    profileRoute: String
-) {
-    composable(
-        route = photo.featureRouteArg,
-        arguments = listOf(
-            navArgument(photo.photoIdArg) { type = NavType.StringType },
-            navArgument(photo.canNavigateToProfileArg) { type = NavType.BoolType }
-        )
-    ) {
-        val canNavigateToProfile = it.arguments?.getBoolean(photo.canNavigateToProfileArg) ?: true
-        photo.Start(
-            navigateBack = { navController.popBackStack() },
-            navigateToProfile = { username ->
-                if (canNavigateToProfile) {
-                    navController.openProfile(username, profileRoute)
-                } else {
-                    navController.popBackStack()
-                }
-            },
-            navigateToShare = { title, link -> navController.navigateToShare(title, link) }
-        )
-    }
 }
 
 fun NavGraphBuilder.searchScreen(
