@@ -1,30 +1,30 @@
 [versions]
-android-gradle-plugin = "8.3.1"
-andoroid-library = "8.3.1"
-kotlin = "1.9.20"
-kotlin-jvm = "1.9.20"
-kotlin-coroutines = "1.7.3"
+android-gradle-plugin = "8.4.2"
+andoroid-library = "8.4.2"
+kotlin = "2.0.0"
+kotlin-jvm = "2.0.0"
+kotlin-coroutines = "1.8.0"
 
-ktx = "1.12.0"
-appcompat = "1.6.1"
-material = "1.11.0"
+ktx = "1.13.1"
+appcompat = "1.7.0"
+material = "1.12.0"
 test-junit = "4.13.2"
-test-ext-junit = "1.1.5"
-test-espresso-core = "3.5.1"
+test-ext-junit = "1.2.1"
+test-espresso-core = "3.6.1"
 koin = "3.5.0"
 koin-annotations = "1.3.0"
-ksp = "1.9.20-1.0.14"
-compose-bom = "2024.02.02"
-compose-activity = "1.8.2"
-compose-runtime = "1.6.3"
+ksp = "2.0.0-1.0.21"
+compose-bom = "2024.06.00"
+compose-activity = "1.9.1"
+compose-runtime = "1.6.8"
 navigation = "2.7.7"
 retrofit = "2.9.0"
 okhttp = "4.12.0"
-serialization = "1.5.0"
+serialization = "1.6.3"
 serialization-converter = "1.0.0"
-coil = "2.5.0"
-paging = "3.2.1"
-paging-compose = "3.2.1"
+coil = "2.6.0"
+paging = "3.3.2"
+paging-compose = "3.3.2"
 room = "2.6.1"
 
 [libraries]
@@ -71,6 +71,7 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin-jvm" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 
 [bundles]
 compose-preview = ["androidx-compose-tooling", "androidx-compose-tooling-preview"]

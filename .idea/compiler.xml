@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel target="17">
+    <bytecodeTargetLevel target="19">
       <module name="Unsplash_app.core.data" target="17" />
       <module name="Unsplash_app.core.model" target="17" />
       <module name="Unsplash_app.core.model.main" target="17" />
