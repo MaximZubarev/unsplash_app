@@ -1,6 +1,6 @@
 [versions]
-android-gradle-plugin = "8.4.2"
-andoroid-library = "8.4.2"
+android-gradle-plugin = "8.5.2"
+andoroid-library = "8.5.2"
 kotlin = "2.0.0"
 kotlin-jvm = "2.0.0"
 kotlin-coroutines = "1.8.0"
