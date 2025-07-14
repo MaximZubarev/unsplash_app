@@ -20,3 +20,5 @@ local.properties
 private_key.pepk
 Untitled
 app-release.aab
+upload-keystore.jks
+upload_certificate.pem
