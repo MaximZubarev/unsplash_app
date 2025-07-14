@@ -13,9 +13,9 @@ android {
     defaultConfig {
         applicationId = "com.mldz.unsplashapp"
         minSdk = 24
-        targetSdk = 34
-        versionCode = 104
-        versionName = "1.0.4"
+        targetSdk = 35
+        versionCode = 106
+        versionName = "1.0.6"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
