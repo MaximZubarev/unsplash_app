@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.mldz.core.common"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 24

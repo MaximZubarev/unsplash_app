@@ -10,7 +10,7 @@ plugins {
 
 android {
     namespace = "com.mldz.core.network.impl"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         val keystoreFile = project.rootProject.file("apikeys.properties")

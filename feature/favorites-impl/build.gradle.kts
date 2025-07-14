@@ -8,7 +8,7 @@ plugins {
 
 android {
     namespace = "com.mldz.feature.favorites_impl"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 24
